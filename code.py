@@ -2,6 +2,7 @@ import sqlite3
 import time
 from rate_today import rate_today
 from rate_history import print_rate
+from convert import convert_valute
 
 base = sqlite3.connect("base.db")
 cur = base.cursor()
@@ -66,7 +67,7 @@ def add_new_user():
 
 def start_menu(user_name):
     print("")
-    print("Введіть дію:\n1. Продивитись баланс\n2. Поповнити баланс\n3. Зняти кошти\n4. Подивитися курс сьогодні\n5. Порівняти курс\n6. Вихід")
+    print("Введіть дію:\n1. Продивитись баланс\n2. Поповнити баланс\n3. Зняти кошти\n4. Подивитися курс сьогодні\n5. Порівняти курс\n6. Конвертуват\n7. Вихід")
     number_from_user = input("Ваша дія: ")
     print("")
     if number_from_user.isdigit():
@@ -84,9 +85,12 @@ def start_menu(user_name):
             print_rate()
             start_menu(user_name)
         if number_from_user == 6:
+            convert_valute()
+            start_menu(user_name)
+        if number_from_user == 6:
             print("До зустрічі {}!".format(user_name))
             raise SystemExit
-        if number_from_user < 1 or number_from_user > 5:
+        if number_from_user < 1 or number_from_user > 6:
             print("Дії з таким номером не існує")
             start_menu(user_name)
     else:
