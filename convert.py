@@ -17,6 +17,10 @@ def convert_valute():
             print("Продаж: " + str(i['sale']))
             res = float(i['sale']) * int(sum_to_convert)
             print(int(res))
+
+            print("Купівля: " + str(i['buy']))
+            res = float(i['buy']) * int(sum_to_convert)
+            print(int(res))
             check = True
 
     if check is not True:
