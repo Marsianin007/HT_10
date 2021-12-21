@@ -26,5 +26,5 @@ def convert_valute():
 
     if check is not True:
         print("Нажаль такої валюти немає")
-        rate_today()
+        return
 
