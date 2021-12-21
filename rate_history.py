@@ -1,6 +1,8 @@
 import requests
 import datetime
 
+def exit_from_func():
+    None
 
 def check_date():
     global date
@@ -45,6 +47,8 @@ def check_date():
     if year_start == year_today and month_start == month_today and day_start > day_today:
         print("Нажаль ми не навчилися знаходити курс у майбутньому\n")
         check_date()
+    if year_start == year_today and month_start == month_today and day_start == day_today:
+        print("Щоб переглянути курс сьогодні, перейдіть у відповідне меню:")
 
     return (year_start, month_start, day_start)
 
@@ -104,7 +108,6 @@ def create_list_of_dates(day_start, month_start, year_start, day_today, month_to
 
         month_start = 1
         year_start += 1
-        #print(year_start)
 
 
 def print_rate(year_start = 0, month_start = 0, day_start = 0):
@@ -116,9 +119,27 @@ def print_rate(year_start = 0, month_start = 0, day_start = 0):
         year_start, month_start, day_start = check_date()
     old_buy, old_sale = 0, 0
     my_list = create_list_of_dates(day_start, month_start, year_start, day_today, month_today, year_today)
-    list_valutes = ["USD", "EUR", "RUB", "AUD", "CAD", "CZK", "DKK", "HUF", "ILS", "JPY", "LVL", "LTL", "NOK", "SKK", "SEK", "CHF", "GBP", "BYR", "GEL", "PLZ"]
-    print(list_valutes)
+    try:
+        i = my_list[0]
+    except:
+        return
+
+
+    i = i[8:10] + "." + i[5:7] + "." + i[0:4]
+    link_rate = "https://api.privatbank.ua/p24api/exchange_rates?json&date={}".format(i)
+    page = requests.get(link_rate)
+    rate = page.json()
+    rate = rate["exchangeRate"]
+    str_of_valutes = ""
+    for i in rate:
+        try:
+            str_of_valutes += str(i["currency"])
+            str_of_valutes += " "
+        except:
+            None
+    print(str_of_valutes)
     valute = input("Введіть потрібну валюту: ")
+    today_check = False
     try:
         for i in my_list:
             i = i[8:10] + "." + i[5:7] + "." + i[0:4]
@@ -160,12 +181,16 @@ def print_rate(year_start = 0, month_start = 0, day_start = 0):
                 print("Сьгодні")
                 print("Купівля: " + str(i['buy']) + "   " + str(difference_buy))
                 print("Продаж: " + str(i['sale']) + "   " + str(difference_sale) )
+                today_check = True
 
 
         if 'ccy' not in rate.keys():
-            print("Нажаль такої валюти немає")
-            print_rate()
+            print("Сталася помилка, курсу цієї валюти на цю дату немає")
+            #print_rate()
     except:
-        print("Якщо ви бажаєте подивитися курс на сьогодні, перейдіть у відповідний пункт меню")
+        if today_check:
+            None
+        else:
+            print("Якщо ви бажаєте подивитися курс на сьогодні, перейдіть у відповідний пункт меню")
 
 
