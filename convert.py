@@ -20,6 +20,10 @@ def convert_valute():
         if i['ccy'] == valute:
             sum_uah = float(i['sale']) * int(sum_to_convert)
             check = True
+    if valute == "BTC":
+        for i in rate:
+            if i['ccy'] == "USD":
+                sum_uah = sum_uah * float(i['sale'])
 
     if check is not True:
         print("Нажаль такої валюти немає")
