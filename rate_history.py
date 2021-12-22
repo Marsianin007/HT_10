@@ -167,7 +167,7 @@ def print_rate(year_start = 0, month_start = 0, day_start = 0):
 
             if check is not True:
                 print("Нажаль такої валюти немає, зачекайте 10 секунд\n")
-                
+
                 print_rate(year_start, month_start, day_start)
 
 
