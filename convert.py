@@ -29,6 +29,12 @@ def convert_valute():
         print("Нажаль такої валюти немає")
         return
 
+    if valute_end == "BTC":
+        for i in rate:
+            if i['ccy'] == "USD":
+                sum_uah = sum_uah /  float(i['sale'])
+
+
     for i in rate:
         if i['ccy'] == valute_end:
             res = sum_uah / float(i['sale'])
